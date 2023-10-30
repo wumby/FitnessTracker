@@ -1,3 +1,7 @@
+.sidenav-links{
+    display: inline-block;
+    padding-left:6px;
+}
 mat-sidenav-container, mat-sidenav-content, mat-sidenav{
     height:100%;
 }
@@ -15,5 +19,3 @@ a{
 a:hover{
     text-shadow: 0px 0px 10px #fff !important;
 }
-
-

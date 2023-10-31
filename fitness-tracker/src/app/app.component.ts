@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  sidenavOpened = false;
   title = 'fitness-tracker';
+
+  toggleSidenav(){
+    
+  }
 }

@@ -1,0 +1,23 @@
+
+
+
+    <mat-nav-list>
+        <a mat-list-item routerLink="register" (click)="onCloseSidenav()">
+            <mat-icon>face</mat-icon>
+            <span class="sidenav-links">Register</span>
+        </a>
+        <a mat-list-item routerLink="login" (click)="onCloseSidenav()">
+            <mat-icon>input</mat-icon>
+            <span class="sidenav-links">Login</span>
+        </a>
+        <a mat-list-item routerLink="training" (click)="onCloseSidenav()">
+            <mat-icon>fitness_center</mat-icon>
+            <span class="sidenav-links">Workouts</span>
+        </a>
+        <mat-list-item (click)="logout()">
+            <button mat-icon-button>
+                <mat-icon>eject</mat-icon>
+                <span class="sidenav-links" >Logout</span>
+            </button>
+        </mat-list-item>
+    </mat-nav-list>

@@ -13,9 +13,11 @@ import { PastTrainingComponent } from './training/past-training/past-training.co
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './auth/login/login.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-
+import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { SideNavComponent } from './side-nav/side-nav.component';
+import { StopTrainingComponent } from './training/current-training/stop-training.component';
+import { AuthService } from './auth/auth.service';
+import { TrainingService } from './training/training.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +27,10 @@ import { MatNativeDateModule } from '@angular/material/core';
     NewTrainingComponent,
     PastTrainingComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    NavBarComponent,
+    SideNavComponent,
+    StopTrainingComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +40,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     FlexLayoutModule,
     FormsModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [AuthService, TrainingService],
+  bootstrap: [AppComponent],
+  
 })
 export class AppModule { }

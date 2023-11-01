@@ -1,37 +1,56 @@
 import { Subject } from "rxjs";
 import { AuthData } from "../models/authData";
 import { User } from "../models/user";
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Router } from "@angular/router";
-
+import { Auth as FirebaseAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { Auth  } from "@angular/fire/auth";
 
 @Injectable()
 export class AuthService{
+    private auth = inject(Auth)
     authChange = new Subject<boolean>();
     private user!: User | null;
+    private isAuthenticated!: boolean;
 
     constructor(private router: Router){}
 
     registerUser(authData: AuthData){
-        this.user = {
-            email: authData.email,
-            userId: Math.round(Math.random() *10000).toString()
+        createUserWithEmailAndPassword(this.auth,authData.email,authData.password).then(
+            result =>{
+                console.log(result);
+                this.authSuccesful();
+                
+            }
+        ).catch(error=>{
+            console.log(error);
+            
+        })
+        
+            
         };
-        this.authSuccesful();
+        
       
-    }
+    
 
     login(authData: AuthData){
-        this.user = {
-            email: authData.email,
-            userId: Math.round(Math.random() *10000).toString()
-        };
+        signInWithEmailAndPassword(this.auth,authData.email,authData.password).then(
+            result =>{
+                console.log(result);
+                this.authSuccesful();
+                
+            }
+        ).catch(error=>{
+            console.log(error);
+            
+        })
         this.authSuccesful();
     }
 
     logout(){
         this.user = null;
         this.authChange.next(false);
+        this.isAuthenticated=true;
     }
 
     getUser(){
@@ -39,9 +58,10 @@ export class AuthService{
     }
 
     isAuth(){
-        return this.user != null;
+        return this.isAuthenticated;
     }
     private authSuccesful(){
+        this.isAuthenticated=true;
         this.authChange.next(true);
         this.router.navigate(['training']);
     }

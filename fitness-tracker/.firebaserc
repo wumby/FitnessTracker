@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "workout-partner-eae36": {
+      "hosting": {
+        "fitness-tracker": [
+          "workout-partner-eae36"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "workout-partner-eae36"
+  }
+}

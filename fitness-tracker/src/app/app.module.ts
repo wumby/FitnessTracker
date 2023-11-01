@@ -18,6 +18,10 @@ import { SideNavComponent } from './side-nav/side-nav.component';
 import { StopTrainingComponent } from './training/current-training/stop-training.component';
 import { AuthService } from './auth/auth.service';
 import { TrainingService } from './training/training.service';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { getAuth, provideAuth } from '@angular/fire/auth';
+import { DatePipePipe } from './pipes/date-pipe.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +34,8 @@ import { TrainingService } from './training/training.service';
     LoginComponent,
     NavBarComponent,
     SideNavComponent,
-    StopTrainingComponent
+    StopTrainingComponent,
+    DatePipePipe
   ],
   imports: [
     BrowserModule,
@@ -39,6 +44,10 @@ import { TrainingService } from './training/training.service';
     MaterialModule,
     FlexLayoutModule,
     FormsModule,
+    provideFirebaseApp(() => initializeApp({"projectId":"workout-partner-eae36","appId":"1:334614578782:web:046d47381d62073d9116cf","storageBucket":"workout-partner-eae36.appspot.com","apiKey":"AIzaSyBtAS1mYNu-1lerR7dor7snYH1H07RJBqo","authDomain":"workout-partner-eae36.firebaseapp.com","messagingSenderId":"334614578782","measurementId":"G-MEPXRY373H"})),
+    provideFirestore(() => getFirestore()),
+    provideAuth(() => getAuth()),
+    
   ],
   providers: [AuthService, TrainingService],
   bootstrap: [AppComponent],

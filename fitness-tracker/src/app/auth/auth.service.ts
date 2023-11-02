@@ -5,15 +5,17 @@ import { Injectable, inject } from "@angular/core";
 import { Router } from "@angular/router";
 import { Auth as FirebaseAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { Auth  } from "@angular/fire/auth";
+import { TrainingService } from "../training/training.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Injectable()
 export class AuthService{
     private auth = inject(Auth)
     authChange = new Subject<boolean>();
     private user!: User | null;
-    private isAuthenticated!: boolean;
+    private isAuthenticated= false;
 
-    constructor(private router: Router){}
+    constructor(private router: Router, private trainingService: TrainingService, private snackbar: MatSnackBar){}
 
     registerUser(authData: AuthData){
         createUserWithEmailAndPassword(this.auth,authData.email,authData.password).then(
@@ -23,7 +25,10 @@ export class AuthService{
                 
             }
         ).catch(error=>{
-            console.log(error);
+            if(error.message =='Firebase: Error (auth/email-already-in-use).')
+            this.snackbar.open('Email already in use', undefined, {
+                duration:3000
+            })
             
         })
         
@@ -44,13 +49,14 @@ export class AuthService{
             console.log(error);
             
         })
-        this.authSuccesful();
     }
 
     logout(){
+        this.trainingService.cancelSubs();
         this.user = null;
         this.authChange.next(false);
-        this.isAuthenticated=true;
+        this.isAuthenticated=false;
+        this.router.navigate(['login']);
     }
 
     getUser(){
@@ -60,6 +66,7 @@ export class AuthService{
     isAuth(){
         return this.isAuthenticated;
     }
+
     private authSuccesful(){
         this.isAuthenticated=true;
         this.authChange.next(true);

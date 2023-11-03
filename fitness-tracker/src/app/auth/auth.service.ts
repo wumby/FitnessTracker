@@ -7,6 +7,10 @@ import { Auth as FirebaseAuth, createUserWithEmailAndPassword, signInWithEmailAn
 import { Auth  } from "@angular/fire/auth";
 import { TrainingService } from "../training/training.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { UIService } from "../shared/ui.service";
+import { Store } from "@ngrx/store";
+import * as fromRoot from '../app.reducer';
+import * as UI from '../shared/ui.actions'
 
 @Injectable()
 export class AuthService{
@@ -15,16 +19,19 @@ export class AuthService{
     private user!: User | null;
     private isAuthenticated= false;
 
-    constructor(private router: Router, private trainingService: TrainingService, private snackbar: MatSnackBar){}
+    constructor(private router: Router, private trainingService: TrainingService, private snackbar: MatSnackBar,
+         private uiService: UIService, private store: Store<{ui: fromRoot.State}>){}
 
     registerUser(authData: AuthData){
+        this.store.dispatch({type: '[UI] Start Loading'});
         createUserWithEmailAndPassword(this.auth,authData.email,authData.password).then(
             result =>{
-                console.log(result);
+                this.store.dispatch({type: '[UI] Stop Loading'})
                 this.authSuccesful();
                 
             }
         ).catch(error=>{
+            this.store.dispatch({type: '[UI] Stop Loading'})
             if(error.message =='Firebase: Error (auth/email-already-in-use).')
             this.snackbar.open('Email already in use', undefined, {
                 duration:3000
@@ -39,13 +46,16 @@ export class AuthService{
     
 
     login(authData: AuthData){
+        this.store.dispatch({type: '[UI] Start Loading'})
         signInWithEmailAndPassword(this.auth,authData.email,authData.password).then(
             result =>{
-                console.log(result);
+                this.store.dispatch({type: '[UI] Stop Loading'})
                 this.authSuccesful();
+                
                 
             }
         ).catch(error=>{
+            this.store.dispatch({type: '[UI] Stop Loading'})
             console.log(error);
             
         })

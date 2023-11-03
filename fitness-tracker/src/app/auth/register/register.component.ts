@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { max } from 'rxjs';
+import { Observable, Subscription, from, max } from 'rxjs';
 import { AuthService } from '../auth.service';
+import { UIService } from 'src/app/shared/ui.service';
+import * as fromRoot from '../../app.reducer'
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-register',
@@ -10,17 +13,22 @@ import { AuthService } from '../auth.service';
 })
 export class RegisterComponent {
   maxDate: any;
+  private loadingSub!: Subscription;
+  isLoading$ : Observable<boolean>;
   
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private uiService: UIService, private store: Store<fromRoot.State>) {
 
     
   }
 
   ngOnInit(){
+    this.isLoading$=this.store.select(fromRoot.getIsLoading)
     this.maxDate= new Date();
     this.maxDate.setFullYear(this.maxDate.getFullYear()-5);
   }
+
+
 
   onSubmit(form: NgForm){
     const authData = {

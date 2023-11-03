@@ -28,9 +28,6 @@ export class NewTrainingComponent {
 
   onStartTraining(form: NgForm){
     this.trainingService.startExercise(form.value.exerciseId);
-    console.log(form.value.exerciseId);
-    
-    console.log(this.trainingService.getCurrentExercise());
     
   }
 

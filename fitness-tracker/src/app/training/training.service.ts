@@ -50,6 +50,7 @@ export class TrainingService {
         this.addDataToDatabase({...this.currentExercise!,
             duration: this.currentExercise?.duration! * (progress/100),
             calories: this.currentExercise?.calories! * (progress/100),
+            name: this.currentExercise?.name!,
             date: new Date(), 
             state: 'cancelled'});
         this.currentExercise = null;
@@ -62,7 +63,6 @@ export class TrainingService {
 
     fetchAllExercises(){
         this.fbSubscriptions.push(collectionData(this.usersCollection).subscribe((exercises: any[]) =>{
-            console.log(exercises);
             
             this.finishedExercisedChanged.next(exercises);
         })
